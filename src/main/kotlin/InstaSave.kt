@@ -12,15 +12,11 @@ class InstaSave {
      * But we would appreciate a little mention of our work!
      */
 
-    private var links = HashMap<String, ArrayList<String>>()
+    private var photoLinks = ArrayList<String>()
+    private var videoLinks = ArrayList<String>()
     private var extract = true
 
     private var html = ""
-
-    init {
-        links["Photo"] = ArrayList()
-        links["Video"] = ArrayList()
-    }
 
     /*
      * Listener for task completion and errors!
@@ -70,10 +66,10 @@ class InstaSave {
                  * Search for photos' links!
                  */
                 getPhotos()
-                if(links["Photo"]?.size!! > 10) {
-                    val temp = links["Photo"]?.get(0)
-                    if (temp != null && !temp.contains("\"")) {
-                        links["Photo"] = arrayListOf(temp)
+                if(photoLinks.size > 10) {
+                    val temp = photoLinks[0]
+                    if (!temp.contains("\"")) {
+                        photoLinks = arrayListOf(temp)
                     }
                     getVideos()
                     extract = false
@@ -92,7 +88,7 @@ class InstaSave {
                 }
             }
         }
-        processListener?.onCompleteListener(links["Photo"]?.size?.plus(links["Video"]?.size!!) ?: 0)
+        processListener?.onCompleteListener(photoLinks.size + videoLinks.size)
     }
 
     private fun getPhotos() {
@@ -103,7 +99,7 @@ class InstaSave {
         var link = temp[0]
         html = html.replace("\"display_url\":\"$link\",\"display_resources", "")
         link = link.replace("\\u0026", "&")
-        links["Photo"]?.add(link)
+        photoLinks.add(link)
     }
 
     private fun getVideos() {
@@ -114,20 +110,20 @@ class InstaSave {
         val link = temp[0].split("content=\"")[1].split("\"")[0]
         html = html.replace("og:video:secure_url", "")
         html = html.replace(link, "")
-        links["Video"]?.add(link)
+        videoLinks.add(link)
     }
 
-    fun getAllPhotos() : ArrayList<String>? {
+    fun getAllPhotos() : ArrayList<String> {
         /*
          * Utility method for users to get all the photos' links!
          */
-        return links["Photo"]
+        return photoLinks
     }
 
-    fun getAllVideos() : ArrayList<String>? {
+    fun getAllVideos() : ArrayList<String> {
         /*
          * Utility method for users to get all the videos' links!
          */
-        return links["Video"]
+        return videoLinks
     }
 }
