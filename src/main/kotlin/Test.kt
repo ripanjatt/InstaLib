@@ -5,10 +5,10 @@ fun main() {
     instaSave.setProcessListener(object : ProcessListener {
         override fun onCompleteListener(noOfFiles : Int) {
             println("Completed => Files: $noOfFiles")
-            instaSave.getAllPhotos()?.forEach {
+            instaSave.getAllPhotos().forEach {
                 println(it)
             }
-            instaSave.getAllVideos()?.forEach {
+            instaSave.getAllVideos().forEach {
                 println(it)
             }
         }
