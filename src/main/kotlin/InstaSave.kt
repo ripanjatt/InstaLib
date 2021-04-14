@@ -56,6 +56,13 @@ class InstaSave {
         }
     }
 
+    fun startWithHtml(text: String) {
+        html = text
+        html = html.replace(" ", "")
+        html = html.replace("\n", "")
+        getLinks()
+    }
+
     private fun getLinks() {
         /*
          * Extracts all the links!
