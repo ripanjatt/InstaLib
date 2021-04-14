@@ -11,3 +11,16 @@ Features:
 
 Feel free to use it in your own project.
 Don't forget to mention❤.
+
+Gradle implementation(in app level build.gradle)
+-
+allprojects {
+  repositories {
+      google()
+      maven { url 'https://jitpack.io' }
+  }
+}
+
+dependencies {
+ implementation 'com.github.ripanjatt:InstaLib:1.0.0'
+}
