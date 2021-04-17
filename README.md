@@ -27,3 +27,27 @@ dependencies {
  implementation 'com.github.ripanjatt:InstaLib:1.0.0'
 }
 ```
+Working
+-
+```
+val instaSave = InstaSave()
+instaSave.start("post_url")
+instaSave.setProcessListener(object : ProcessListener {
+    override fun onCompleteListener(noOfFiles : Int) {
+      // task completion listener!
+      instaSave.getAllPhotos().forEach {
+          println(it)
+      }
+      instaSave.getAllVideos().forEach {
+          println(it)
+      }
+    }
+    override fun onErrorListener(error: String) {
+      // error listener!
+    }
+}
+```
+* **noOfFiles** no. of files available in the post. In case a post contains video/s, then there will extra files containing video thumbnails.
+
+
+
