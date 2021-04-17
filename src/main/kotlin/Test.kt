@@ -1,7 +1,6 @@
 fun main() {
     val instaSave = InstaSave()
-    instaSave.start("https://www.instagram.com/p/CNqODEfJtEP/?igshid=16aj2v42py3mn")
-//    instaSave.start("https://www.instagram.com/p/CNsSpOHjduf/")
+    instaSave.start("https://www.instagram.com/p/CNrZgt7JG1a/?igshid=93txuw85tkmt")
     println("Running...")
     instaSave.setProcessListener(object : ProcessListener {
         override fun onCompleteListener(noOfFiles : Int) {

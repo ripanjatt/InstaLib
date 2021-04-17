@@ -15,6 +15,7 @@ class InstaSave {
     private var photoLinks = ArrayList<String>()
     private var videoLinks = ArrayList<String>()
     private var extract = true
+    private var vExtract = true
 
     private var html = ""
 
@@ -74,7 +75,7 @@ class InstaSave {
          */
         try {
             while (extract) {
-                if (html.contains("og:video:secure_url") || html.contains("video_url\":\"")) {
+                if (vExtract && (html.contains("og:video:secure_url") || html.contains("video_url\":\""))) {
                     /*
                      * Search for videos' links!
                      */
@@ -96,6 +97,7 @@ class InstaSave {
                 }
             }
         } catch(e : Exception) {
+            extract = false
             processListener?.onErrorListener("Error: $e")
         }
         processListener?.onCompleteListener(photoLinks.size + videoLinks.size)
@@ -137,6 +139,7 @@ class InstaSave {
                 }
             }
         } catch (e : Exception) {
+            vExtract = false
             processListener?.onErrorListener("Error: $e")
         }
     }
