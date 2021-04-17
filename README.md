@@ -15,7 +15,7 @@ Don't forget to mention❤.
 
 Gradle implementation(in app level build.gradle)
 -
-`allprojects {
+```allprojects {
   repositories {
       google()
       maven { url 'https://jitpack.io' }
@@ -24,4 +24,4 @@ Gradle implementation(in app level build.gradle)
 
 dependencies {
  implementation 'com.github.ripanjatt:InstaLib:1.0.0'
-}`
+}```
