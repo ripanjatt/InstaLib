@@ -47,7 +47,7 @@ instaSave.setProcessListener(object : ProcessListener {
     }
 }
 ```
-* **noOfFiles** no. of files available in the post. In case a post contains video/s, then there will extra files containing video thumbnails.
+* ```noOfFiles``` no. of files available in the post. In case a post contains video/s, then there will extra files containing video thumbnails.
 
 
 
