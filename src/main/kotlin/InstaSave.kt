@@ -1,6 +1,4 @@
 import java.io.DataInputStream
-import java.io.File
-import java.io.FileOutputStream
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
@@ -51,8 +49,8 @@ class InstaSave {
                 }
                 html = html.replace(" ", "")
                 html = html.replace("\n", "")
-                val stream = FileOutputStream(File("test.html"))
-                stream.write(html.toByteArray())
+//                val stream = FileOutputStream(File("test.html"))
+//                stream.write(html.toByteArray())
                 getLinks()
             } catch (e : Exception) {
                 processListener?.onErrorListener("Error: $e")
