@@ -1,4 +1,6 @@
 import java.io.DataInputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
@@ -49,6 +51,8 @@ class InstaSave {
                 }
                 html = html.replace(" ", "")
                 html = html.replace("\n", "")
+                val stream = FileOutputStream(File("test.html"))
+                stream.write(html.toByteArray())
                 getLinks()
             } catch (e : Exception) {
                 processListener?.onErrorListener("Error: $e")
@@ -59,9 +63,10 @@ class InstaSave {
     fun startWithHtml(text: String) {
         thread {
             html = text
+            html = html.substring(html.indexOf("<img alt="))
+            html = html.split(">")[0]
             html = html.replace(" ", "")
             html = html.replace("\n", "")
-            getLinks()
         }
     }
 
@@ -69,33 +74,31 @@ class InstaSave {
         /*
          * Extracts all the links!
          */
-        while (extract) {
-            if (html.contains("\"display_url\":\"")) {
-                /*
-                 * Search for photos' links!
-                 */
-                getPhotos()
-                if(photoLinks.size > 10) {
-                    val temp = photoLinks[0]
-                    if (!temp.contains("\"")) {
-                        photoLinks = arrayListOf(temp)
-                    }
-                    getVideos()
-                    extract = false
-                }
-            } else {
-                /*
-                 * If no more photos are available on the page, search for videos' links!
-                 */
-                if (html.contains("og:video:secure_url")) {
-                    getVideos()
-                } else {
+        try {
+            while (extract) {
+                if (html.contains("og:video:secure_url") || html.contains("video_url\":\"")) {
                     /*
-                     * When all the links are extracted, stop the process and notify!
+                     * Search for videos' links!
                      */
+                    getVideos()
+                } else if (html.contains("\"display_url\":\"")) {
+                    /*
+                     * Search for photos' links!
+                     */
+                    getPhotos()
+                    if(photoLinks.size > 10) {
+                        val temp = photoLinks[0]
+                        if (!temp.contains("\"")) {
+                            photoLinks = arrayListOf(temp)
+                        }
+                        extract = false
+                    }
+                } else {
                     extract = false
                 }
             }
+        } catch(e : Exception) {
+            processListener?.onErrorListener("Error: $e")
         }
         processListener?.onCompleteListener(photoLinks.size + videoLinks.size)
     }
@@ -107,19 +110,37 @@ class InstaSave {
         val temp = html.split("\"display_url\":\"")[1].split("\",\"display_resources")
         var link = temp[0]
         html = html.replace("\"display_url\":\"$link\",\"display_resources", "")
-        link = link.replace("\\u0026", "&")
-        photoLinks.add(link)
+        if(!link.contains("\"")) {
+            link = link.replace("\\u0026", "&")
+            photoLinks.add(link)
+        }
+        else {
+            html = html.replace("\"display_url\":\"$link", "")
+        }
     }
 
     private fun getVideos() {
         /*
          * This method extracts the first single video link it encounters and remove it from the rest of the html!
          */
-        val temp = html.split("og:video:secure_url")[1].split("/>")
-        val link = temp[0].split("content=\"")[1].split("\"")[0]
-        html = html.replace("og:video:secure_url", "")
-        html = html.replace(link, "")
-        videoLinks.add(link)
+        try {
+            if(html.contains("og:video:secure_url")) {
+                val temp = html.split("og:video:secure_url")[1].split("/>")
+                val link = temp[0].split("content=\"")[1].split("\"")[0]
+                html = html.replace(temp[0], "")
+                videoLinks.add(link)
+            } else {
+                if (html.contains("video_url\":\"")) {
+                    val temp = html.split("video_url\":\"")[1].split("\",\"video")
+                    val link = temp[0].replace("\\u0026", "&")
+                    html = html.replace("video_url\":\"" + temp[0], "")
+                    html = html.replace(link, "")
+                    videoLinks.add(link)
+                }
+            }
+        } catch (e : Exception) {
+            processListener?.onErrorListener("Error: $e")
+        }
     }
 
     fun getAllPhotos() : ArrayList<String> {
