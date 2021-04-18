@@ -24,7 +24,7 @@ allprojects {
 }
 
 dependencies {
- implementation 'com.github.ripanjatt:InstaLib:1.0.0'
+ implementation 'com.github.ripanjatt:InstaLib:1.5.1'
 }
 ```
 Working
