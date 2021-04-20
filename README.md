@@ -47,9 +47,9 @@ instaSave.setProcessListener(object : ProcessListener {
     }
 }
 ```
-*```noOfFiles``` no. of files available in the post. In case a post contains video/s, then there will extra files containing video thumbnails.
-*```getAllPhotos``` returns all photos' url available in the post.
-*```getAllVideos``` returns all videos' url available in the post.
+* ```noOfFiles``` no. of files available in the post. In case a post contains video/s, then there will extra files containing video thumbnails.
+* ```getAllPhotos``` returns all photos' url available in the post.
+* ```getAllVideos``` returns all videos' url available in the post.
 
 Usage
 -
