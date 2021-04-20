@@ -1,3 +1,5 @@
+InstaLib
+-
 > A fast library to get photos/videos/reels from a  public instagram post!
 
 This library doesn't download the files on its own. It extracts all the file links from a post.
