@@ -47,9 +47,13 @@ instaSave.setProcessListener(object : ProcessListener {
     }
 }
 ```
-```noOfFiles``` no. of files available in the post. In case a post contains video/s, then there will extra files containing video thumbnails.
-```getAllPhotos``` returns all photos' url available in the post.
-```getAllVideos``` returns all videos' url available in the post.
+*```noOfFiles``` no. of files available in the post. In case a post contains video/s, then there will extra files containing video thumbnails.
+*```getAllPhotos``` returns all photos' url available in the post.
+*```getAllVideos``` returns all videos' url available in the post.
 
+Usage
+-
+
+<a href='https://cdn.glitch.com/27dd262f-e516-43fe-b5da-d6670ebd93cb%2FinstaSave.apk?v=1618835827867'>Download instaSave app (Android)</a>
 
 
